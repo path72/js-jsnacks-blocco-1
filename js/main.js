@@ -7,19 +7,19 @@ $(function() {
 
 var zucchine = [
 	{	'varietà'  : 'tipo A',
-		'peso'     : 12,
+		'peso'     : 13,
 		'lunghezza': 11
 	},
 	{	'varietà'  : 'tipo B',
-		'peso'     : 12,
+		'peso'     : 14,
 		'lunghezza': 12
 	},
 	{	'varietà'  : 'tipo C',
-		'peso'     : 12,
+		'peso'     : 18,
 		'lunghezza': 16
 	},
 	{	'varietà'  : 'tipo A',
-		'peso'     : 12,
+		'peso'     : 20,
 		'lunghezza': 18
 	},
 	{	'varietà'  : 'tipo B',
@@ -27,23 +27,23 @@ var zucchine = [
 		'lunghezza': 10
 	},
 	{	'varietà'  : 'tipo C',
-		'peso'     : 12,
+		'peso'     : 24,
 		'lunghezza': 22
 	},
-	{	'varietà'  : 'tipo JH',
-		'peso'     : 12,
+	{	'varietà'  : 'tipo J.H.',
+		'peso'     : 36,
 		'lunghezza': 34
 	},
 	{	'varietà'  : 'tipo B',
-		'peso'     : 12,
+		'peso'     : 14,
 		'lunghezza': 12
 	},
 	{	'varietà'  : 'tipo C',
-		'peso'     : 12,
+		'peso'     : 24,
 		'lunghezza': 22
 	},
 	{	'varietà'  : 'tipo A',
-		'peso'     : 12,
+		'peso'     : 13,
 		'lunghezza': 11
 	}
 ];
@@ -54,12 +54,20 @@ var zucchine = [
 // zucchina, indicando per ognuna varietà, peso e lunghezza.
 // Calcola quanto pesano tutte le zucchine.
 
+$('.table1').append('<tr class="hl1 line"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td></tr>');
+
 var sum = 0;
 for (var i=0; i<zucchine.length; i++) {
 	sum += zucchine[i].peso;
+	$('.table1').append('<tr>'+
+							'<td class="hl1">zucchina #'+(i+1)+'</td>'+
+							'<td>'+zucchine[i].varietà+'</td>'+
+							'<td class="hl2">'+zucchine[i].peso+'</td>'+
+							'<td>'+zucchine[i].lunghezza+'</td>'+
+						'</tr>');
 }
 
-$('.table1').append('<tr><td>Peso totale zucchine</td><td class="hl2">'+sum+'</td></tr>');
+$('.end_table1').append('<span class="hl3">Peso totale zucchine:</span> <span class="hl2">'+sum+'</span>');
 
 
 // * JS SNACK 2 *
@@ -69,7 +77,7 @@ $('.table1').append('<tr><td>Peso totale zucchine</td><td class="hl2">'+sum+'</t
 // Infine stampa separatamente quanto pesano i due gruppi
 // di zucchine
 
-var zucchineSeparate = {
+var zucchineSeparate = { // oggetto di array di oggetti: e che ci vuole?!
 	'piccole': [],
 	'grandi' : [],
 }
@@ -81,7 +89,6 @@ for (var i=0; i<zucchine.length; i++) {
 		zucchineSeparate.grandi.push(zucchine[i]);
 	}
 }
-console.log(zucchineSeparate);
 
 var pesoZucchineSeparate = {
 	'piccole' : 0,
@@ -92,10 +99,19 @@ for (key in zucchineSeparate) {
 		pesoZucchineSeparate[key] += zucchineSeparate[key][i].peso;
 	}
 }
-console.log(pesoZucchineSeparate);
 
-for (key in pesoZucchineSeparate) {
-	$('.table2').append('<tr><td>Peso zucchine '+key+'</td><td class="hl2">'+pesoZucchineSeparate[key]+'</td></tr>');
+$('.table2').append('<tr class="hl1"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td><tr>');
+
+for (key in zucchineSeparate) {
+	for (var i=0; i<zucchineSeparate[key].length; i++) {
+		$('.table2').append('<tr>'+
+								'<td class="hl1">zucchine '+key+' #'+(i+1)+'</td>'+
+								'<td>'+zucchineSeparate[key][i].varietà+'</td>'+
+								'<td class="hl2">'+zucchineSeparate[key][i].peso+'</td>'+
+								'<td>'+zucchineSeparate[key][i].lunghezza+'</td>'+
+							'<tr>');
+	}
+	$('.table2').append('<tr><td colspan="2" class="hl3">Peso totale zucchine '+key+':</td><td class="hl2">'+pesoZucchineSeparate[key]+'</td><td></td><tr>');
 }
 
 
@@ -103,12 +119,17 @@ for (key in pesoZucchineSeparate) {
 // Scrivi una funzione che accetti una stringa come
 // argomento e la ritorni girata (es. Ciao -> oaiC)
 
-function stringReverse(_string) {
-	// faccio cose
-}
+$('.msg_box').hide();
 
+$(document).on('click', '#usr_in_btn', function() { 
 
+	var msg = getResponseMsgByInputForm();
+	showMsg(msg);
+	emptyForm();
 
+});
+
+$(document).on('click', '#usr_erase_btn', emptyForm);
 
 
 
@@ -118,4 +139,45 @@ function stringReverse(_string) {
 //###################################################### 
 // FUNCTIONS
 
+function stringReverse(_string) {
 
+	var rev = '';
+	for (var i=0; i<_string.length; i++) 
+		rev += _string[_string.length - i - 1];
+
+	return rev;
+
+}
+
+function getResponseMsgByInputForm() {
+
+	var string = $('#usr_str').val(), msg = '';
+
+	if (string == '') {
+		msg = 'Inserisci una stringa!';
+	} else {
+		var revString = stringReverse(string);		
+		msg = '<div>La stringa al contrario è</div><span class="hl2">'+revString+'</span>';
+	}
+
+	return msg;
+
+}
+
+function showMsg(_msg) {
+
+	$('.msg').html(_msg);
+
+	$('.msg_box').fadeIn(300, function() {
+		setTimeout(function() {
+			$('.msg_box').fadeOut(300);
+		},2000);
+	});
+
+}
+
+function emptyForm() {
+
+	$('#usr_str').val('');
+
+}
