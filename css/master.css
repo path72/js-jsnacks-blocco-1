@@ -17,8 +17,7 @@ body {
 	font-family: 'Roboto', sans-serif;
 	background-color: var(--white);
 	color: var(--black);
-	/* font-size: 12px; */
-	/* min-width: 297px;  */
+	min-width: 466px; 
 }
 a {
 	text-decoration: none;
@@ -31,6 +30,7 @@ a:hover {
 /****************************************************************
 **  STRUCTURE
 */
+
 /** CONTAINERS **/
 .wrapper {
 	display: flex;
@@ -64,7 +64,6 @@ a:hover {
 	border-radius: 5px;
 	border: 1px solid var(--black);
 	text-align: center;
-	ouline: none;
 }
 .msg_box {
 	display: flex;

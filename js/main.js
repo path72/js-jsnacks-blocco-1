@@ -77,7 +77,7 @@ $('.end_table1').append('<span class="hl3">Peso totale zucchine:</span> <span cl
 // Infine stampa separatamente quanto pesano i due gruppi
 // di zucchine
 
-var zucchineSeparate = { // oggetto di array di oggetti: e che ci vuole?!
+var zucchineSeparate = { // oggetto di array di oggetti: e che ci vuole?! :D
 	'piccole': [],
 	'grandi' : [],
 }
