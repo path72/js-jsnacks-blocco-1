@@ -5,6 +5,11 @@ $(function() {
 // ********************* doc ready start ***
 
 
+// * ---------- * JS SNACK 1 * ---------- *
+// Crea un array di 10 oggetti che rappresentano una
+// zucchina, indicando per ognuna varietà, peso e lunghezza.
+// Calcola quanto pesano tutte le zucchine.
+
 var zucchine = [
 	{	'varietà'  : 'tipo A',
 		'peso'     : 13,
@@ -48,12 +53,6 @@ var zucchine = [
 	}
 ];
 
-
-// * JS SNACK 1 *
-// Crea un array di 10 oggetti che rappresentano una
-// zucchina, indicando per ognuna varietà, peso e lunghezza.
-// Calcola quanto pesano tutte le zucchine.
-
 $('.table1').append('<tr class="hl1"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td></tr>');
 
 var sum = 0;
@@ -70,7 +69,7 @@ for (var i=0; i<zucchine.length; i++) {
 $('.end_table1').append('<span class="hl3">Peso totale zucchine:</span> <span class="hl2">'+sum+'</span>');
 
 
-// * JS SNACK 2 *
+// * ---------- * JS SNACK 2 * ---------- *
 // Crea 10 oggetti che rappresentano una zucchina.
 // Dividi in due array separati le zucchine che misurano
 // meno o più di 15cm (:smirk:).
@@ -115,7 +114,7 @@ for (key in zucchineSeparate) {
 }
 
 
-// * JS SNACK 3 *
+// * ---------- * JS SNACK 3 * ---------- *
 // Scrivi una funzione che accetti una stringa come
 // argomento e la ritorni girata (es. Ciao -> oaiC)
 
@@ -124,53 +123,97 @@ $(document).on('click', '#usr_in_btn', getResponseByInputForm);
 $(document).on('click', '#usr_erase_btn', emptyForm);
 
 
+// * ---------- * JS SNACK 4 * ---------- *
+
+
+// * ---------- * JS SNACK 5 * ---------- *
+
+
+// * ---------- * JS SNACK 6 * ---------- *
+
+
+// * ---------- * JS SNACK 7 * ---------- *
+
+
+// * ---------- * JS SNACK 8 * ---------- *
+
+
+
+
+// * ------- * JS SNACK LABELS * -------- *
+showJsSnackLabels();
+
+
 // *********************** doc ready end ***
 });
 
 //###################################################### 
 // FUNCTIONS
 
-function stringReverse(_string) {
 
+// * ---------- * JS SNACK 1 * ---------- *
+// no functions
+
+
+// * ---------- * JS SNACK 2 * ---------- *
+// no functions
+
+
+// * ---------- * JS SNACK 3 * ---------- *
+function stringReverse(_string) {
 	var rev = '';
 	for (var i=0; i<_string.length; i++) 
 		rev += _string[_string.length - i - 1];
-
 	return rev;
-
 }
-
 function getResponseByInputForm() {
-
 	var string = $('#usr_str').val(), msg = '';
-
 	if (string == '') {
 		msg = 'Inserisci una stringa!';
 	} else {
 		var revString = stringReverse(string);		
 		msg = '<div>La stringa al contrario è</div><span class="hl2">'+revString+'</span>';
 	}
-
 	showMsg(msg);
-
 }
-
 function showMsg(_msg) {
-
 	$('.msg').html(_msg);
-
 	$('.msg_box').fadeIn(300, function() {
 		setTimeout(function() {
 			$('.msg_box').fadeOut(300);
 		},2000);
 	});
-
 	emptyForm();
-
+}
+function emptyForm() {
+	$('#usr_str').val('');
 }
 
-function emptyForm() {
 
-	$('#usr_str').val('');
+// * ---------- * JS SNACK 4 * ---------- *
+// no functions
 
+
+// * ---------- * JS SNACK 5 * ---------- *
+// no functions
+
+
+// * ---------- * JS SNACK 6 * ---------- *
+// no functions
+
+
+// * ---------- * JS SNACK 7 * ---------- *
+// no functions
+
+
+// * ---------- * JS SNACK 8 * ---------- *
+// no functions
+
+
+// * ------- * JS SNACK LABELS * -------- *
+function showJsSnackLabels() {
+	$('.card').append('<div class="label"></div>');
+	$('.label').each(function(n) {
+		$(this).html('Js Snack '+(n+1));
+	});	
 }
