@@ -124,18 +124,88 @@ $(document).on('click', '#usr_erase_btn', emptyForm);
 
 
 // * ---------- * JS SNACK 4 * ---------- *
+// Generatore di “nomi cognomi” casuali: prendendo una lista
+// di nomi e una lista di cognomi, Gatsby vuole generare una
+// falsa lista di 3 invitati.
+
+// name/surname lists
+var nameList    = ['Marco',   'Kasia',    'Elio',   'Cristina', 'Antonio', 'Pierfrancesco'  ];
+var surnameList = ['Giallini','Smutiniak','Germano','Capotondi','Albanese','Favino',           'Gassman','Golino','Morante'];
+
+// showing lists
+$('.table4a').html('<tr class="hl1"><td></td><td>nome</td></tr>');
+for (var i=0; i<nameList.length; i++) {
+	$('.table4a').append('<tr><td class="hl1">#'+(i+1)+'</td><td>'+nameList[i]+'</td></tr>');
+}
+$('.table4b').html('<tr class="hl1"><td></td><td>cognome</td></tr>');
+for (var i=0; i<surnameList.length; i++) {
+	$('.table4b').append('<tr><td class="hl1">#'+(i+1)+'</td><td>'+surnameList[i]+'</td></tr>');
+}
+
+// fake ids elements
+var fakeIdNumber   = 3;
+var fakeIds        = []; // array of fake-id-objects
+var tmpNameList    = []; // picked up name list
+var tmpSurnameList = []; // picked up surname list
+var i=1; // fake id counter in [1, ..., fakeIdNumber]
+
+$('.table4c').append('<tr class="hl1"><td></td><td>nome</td><td>cognome</td></tr>');
+
+while (fakeIds.length < fakeIdNumber) {
+
+	var newId      = {}; // this new fake id 
+	var tmpName    = nameList[getRandomInt(0,nameList.length-1)];
+	var tmpSurname = surnameList[getRandomInt(0,surnameList.length-1)];
+	
+	// only considering different couples names/surnames
+	if (!tmpNameList.includes(tmpName) && !tmpSurnameList.includes(tmpSurname)) {
+
+		// picked up name/surname memory
+		tmpNameList.push(tmpName);
+		tmpSurnameList.push(tmpSurname);
+
+		// building this new fake id
+		newId.name    = tmpName;
+		newId.surname = tmpSurname;
+		fakeIds.push(newId);
+
+		// building fake id table
+		$('.table4c').append('<tr><td class="hl1">identità #'+i+'</td><td class="hl2">'+newId.name+'</td><td class="hl2">'+newId.surname+'</td></tr>');
+		i++;
+
+	}
+
+}
 
 
 // * ---------- * JS SNACK 5 * ---------- *
+// 2)
+// Crea un array di numeri interi e fai la somma di tutti gli
+// elementi che sono in posizione dispari
 
 
 // * ---------- * JS SNACK 6 * ---------- *
+// 3)
+// Crea due array che hanno un numero di elementi diversi.
+// Aggiungi elementi casuali all’array che ha meno elementi,
+// fino a quando ne avrà tanti quanti l’altro.
 
 
 // * ---------- * JS SNACK 7 * ---------- *
+// 4)
+// Scrivi una funzione che fonda due array (aventi lo stesso
+// numero di elementi) prendendo alternativamente gli
+// elementi da uno e dall’altro
+// es. [a,b,c], [1,2,3] → [a,1,b,2,c,3].
 
 
 // * ---------- * JS SNACK 8 * ---------- *
+// 5)
+// Scrivi una funzione che accetti tre argomenti:
+// un array e due numeri (“a” più piccolo di “b” e “b” grande al
+// massimo quanto il numero di elementi dell’array).
+// La funzione ritornerà un nuovo array con i valori che
+// hanno la posizione compresa tra “a” e “b”
 
 
 
@@ -191,7 +261,9 @@ function emptyForm() {
 
 
 // * ---------- * JS SNACK 4 * ---------- *
-// no functions
+function getRandomInt(_a, _b) {
+	return Math.floor(Math.random()*(_b-_a+1))+_a;
+}
 
 
 // * ---------- * JS SNACK 5 * ---------- *
@@ -214,6 +286,6 @@ function emptyForm() {
 function showJsSnackLabels() {
 	$('.card').append('<div class="label"></div>');
 	$('.label').each(function(n) {
-		$(this).html('Js Snack '+(n+1));
+		$(this).html('<span>Js Snack '+(n+1)+'</span>');
 	});	
 }
