@@ -234,35 +234,40 @@ for (key in arrayList) {
 	}
 }
 
-// shorter array
-var shorterArrKey = findShorterArrayInAListObj(arrayList,true); // array of key of shorter arrays
-// longer array
-var longerArrKey = findShorterArrayInAListObj(arrayList,false); // array of key of longer arrays
-
-// show arrays
-if (longerArrKey[0] != shorterArrKey[0]) {
-	showArray(longerArrKey[0],arrayList[longerArrKey[0]],'table6a',undefined);
-	showArray(shorterArrKey[0],arrayList[shorterArrKey[0]],'table6b',undefined);
-} else {
-	showArray('A',arrayList.A,'table6a',undefined);
-	showArray('B',arrayList.B,'table6b',undefined);
-}
-
-// length difference
-var deltaLenght = arrayList[longerArrKey[0]].length - arrayList[shorterArrKey[0]].length;
+// shorter array & longer array
+var shorterArrKey = findShorterArrayInAListObj(arrayList,true);  // array of key of shorter arrays
+var longerArrKey  = findShorterArrayInAListObj(arrayList,false); // array of key of longer arrays
 
 // results
-if (deltaLenght > 0) {
+if (longerArrKey[0] != shorterArrKey[0]) {
+
+	// showing different arrays
+	showArray(longerArrKey[0], arrayList[longerArrKey[0]], 'table6a',undefined);
+	showArray(shorterArrKey[0],arrayList[shorterArrKey[0]],'table6b',undefined);
+
+	// length difference
+	var deltaLenght = arrayList[longerArrKey[0]].length - arrayList[shorterArrKey[0]].length;
+	
 	$('.end_table6').html('<span class="hl3">Differenza iniziale: '+deltaLenght+' element'+((deltaLenght==1)?'o':'i')+' &rArr; array '+shorterArrKey[0]+' riempito!</span>');
 	for (var i=0; i<deltaLenght; i++) {
+
 		// filling shorter array
 		arrayList[shorterArrKey[0]].push(getRandomInt(1,1000));
+
 	}
+
 	// showing filled array
 	showArray(shorterArrKey[0],arrayList[shorterArrKey[0]],'table6c',deltaLenght);
+
 } else {
+
+	// showing equal length arrays
+	showArray('A',arrayList.A,'table6a',undefined);
+	showArray('B',arrayList.B,'table6b',undefined);
+
 	// no contest
 	$('.end_table6').html('<span class="hl3">Array di lunghezza uguale! (Ricarica la pagina)</span>');
+
 }
 
 
@@ -382,10 +387,10 @@ function findShorterArrayInAListObj(_arrayListObj,_shorter) {
 }
 function showArray(_arrName,_arr,_htmlHook,_delta) {
 	var newArr = (_delta != undefined) ? 'Nuovo ' : ''; 	
-	$('.'+_htmlHook).html('<tr><td class="hl3">'+newArr+'Array '+_arrName+'</td><td></td></tr>');
-	$('.'+_htmlHook).append('<tr><td>'+_arr.length+' element'+((_arr.length==1)?'o':'i')+'</td><td></td></tr>');
+	$('.'+_htmlHook).html('<tr><td class="hl3" colspan="2">'+newArr+'Array '+_arrName+'</td></tr>');
+	$('.'+_htmlHook).append('<tr><td colspan="2">'+_arr.length+' element'+((_arr.length==1)?'o':'i')+'</td></tr>');
 	for (var i=0; i<_arr.length; i++){
-		if (_delta != undefined) var tr_class = ((i+1)>(_arr.length - _delta)) ? ' class="hl2"': '';
+		if (_delta != undefined) var tr_class = ((i+1) > (_arr.length - _delta)) ? ' class="hl2"': '';
 		$('.'+_htmlHook).append('<tr '+tr_class+'><td>'+_arrName+'['+i+']</td><td>'+_arr[i]+'<td></tr>');
 	}
 }
