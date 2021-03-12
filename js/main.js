@@ -54,7 +54,7 @@ var zucchine = [
 // zucchina, indicando per ognuna varietà, peso e lunghezza.
 // Calcola quanto pesano tutte le zucchine.
 
-$('.table1').append('<tr class="hl1 line"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td></tr>');
+$('.table1').append('<tr class="hl1"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td></tr>');
 
 var sum = 0;
 for (var i=0; i<zucchine.length; i++) {
@@ -120,17 +120,8 @@ for (key in zucchineSeparate) {
 // argomento e la ritorni girata (es. Ciao -> oaiC)
 
 $('.msg_box').hide();
-
-$(document).on('click', '#usr_in_btn', function() { 
-
-	var msg = getResponseMsgByInputForm();
-	showMsg(msg);
-	emptyForm();
-
-});
-
+$(document).on('click', '#usr_in_btn', getResponseByInputForm);
 $(document).on('click', '#usr_erase_btn', emptyForm);
-
 
 
 // *********************** doc ready end ***
@@ -149,7 +140,7 @@ function stringReverse(_string) {
 
 }
 
-function getResponseMsgByInputForm() {
+function getResponseByInputForm() {
 
 	var string = $('#usr_str').val(), msg = '';
 
@@ -160,7 +151,7 @@ function getResponseMsgByInputForm() {
 		msg = '<div>La stringa al contrario è</div><span class="hl2">'+revString+'</span>';
 	}
 
-	return msg;
+	showMsg(msg);
 
 }
 
@@ -173,6 +164,8 @@ function showMsg(_msg) {
 			$('.msg_box').fadeOut(300);
 		},2000);
 	});
+
+	emptyForm();
 
 }
 
