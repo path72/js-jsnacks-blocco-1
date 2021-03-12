@@ -117,7 +117,7 @@ table.table1 td:nth-child(2),
 table.table2 td:nth-child(2):not(.hl2) {
 	text-align: center;
 }
-.end_table1 {
+[class^='end_table'] {
 	margin-top: 15px;
 }
 

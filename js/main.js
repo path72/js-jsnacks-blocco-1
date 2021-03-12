@@ -5,6 +5,7 @@ $(function() {
 // ********************* doc ready start ***
 
 
+
 // * ---------- * JS SNACK 1 * ---------- *
 // Crea un array di 10 oggetti che rappresentano una
 // zucchina, indicando per ognuna varietà, peso e lunghezza.
@@ -69,6 +70,7 @@ for (var i=0; i<zucchine.length; i++) {
 $('.end_table1').append('<span class="hl3">Peso totale zucchine:</span> <span class="hl2">'+sum+'</span>');
 
 
+
 // * ---------- * JS SNACK 2 * ---------- *
 // Crea 10 oggetti che rappresentano una zucchina.
 // Dividi in due array separati le zucchine che misurano
@@ -114,6 +116,7 @@ for (key in zucchineSeparate) {
 }
 
 
+
 // * ---------- * JS SNACK 3 * ---------- *
 // Scrivi una funzione che accetti una stringa come
 // argomento e la ritorni girata (es. Ciao -> oaiC)
@@ -123,31 +126,26 @@ $(document).on('click', '#usr_in_btn', getResponseByInputForm);
 $(document).on('click', '#usr_erase_btn', emptyForm);
 
 
+
 // * ---------- * JS SNACK 4 * ---------- *
 // Generatore di “nomi cognomi” casuali: prendendo una lista
 // di nomi e una lista di cognomi, Gatsby vuole generare una
 // falsa lista di 3 invitati.
 
 // name/surname lists
-var nameList    = ['Marco',   'Kasia',    'Elio',   'Cristina', 'Antonio', 'Pierfrancesco'  ];
-var surnameList = ['Giallini','Smutiniak','Germano','Capotondi','Albanese','Favino',           'Gassman','Golino','Morante'];
+var nameList    = ['Marco',   'Kasia',   'Elio',   'Cristina', 'Antonio', 'Pierfrancesco'  ];
+var surnameList = ['Giallini','Smutniak','Germano','Capotondi','Albanese','Favino',           'Gassman','Golino','Morante'];
 
 // showing lists
-$('.table4a').html('<tr class="hl1"><td></td><td>nome</td></tr>');
-for (var i=0; i<nameList.length; i++) {
-	$('.table4a').append('<tr><td class="hl1">#'+(i+1)+'</td><td>'+nameList[i]+'</td></tr>');
-}
-$('.table4b').html('<tr class="hl1"><td></td><td>cognome</td></tr>');
-for (var i=0; i<surnameList.length; i++) {
-	$('.table4b').append('<tr><td class="hl1">#'+(i+1)+'</td><td>'+surnameList[i]+'</td></tr>');
-}
+showList('nomi',nameList,'table4a');
+showList('cognomi',surnameList,'table4b');
 
 // fake ids elements
-var fakeIdNumber   = 3;
-var fakeIds        = []; // array of fake-id-objects
-var tmpNameList    = []; // picked up name list
-var tmpSurnameList = []; // picked up surname list
-var i=1; // fake id counter in [1, ..., fakeIdNumber]
+const fakeIdNumber   = 3;
+var   fakeIds        = []; // array of fake-id-objects
+var   tmpNameList    = []; // picked up name list
+var   tmpSurnameList = []; // picked up surname list
+var   i=1; // fake id counter in [1, ..., fakeIdNumber]
 
 $('.table4c').append('<tr class="hl1"><td></td><td>nome</td><td>cognome</td></tr>');
 
@@ -178,10 +176,42 @@ while (fakeIds.length < fakeIdNumber) {
 }
 
 
+
 // * ---------- * JS SNACK 5 * ---------- *
-// 2)
 // Crea un array di numeri interi e fai la somma di tutti gli
 // elementi che sono in posizione dispari
+
+const numListRange  = 1000; // numbers in [1, ..., numListRange]
+var   numListLength = getRandomInt(10,20);
+var   intNumList    = [];
+var   oddSum        = 0;
+
+$('.table5').append('<tr class="hl1"><td></td><td>valore</td></tr>');
+
+for (var i=0; i<numListLength; i++) {
+
+	// random numbers
+	var n = getRandomInt(1,numListRange);
+	
+	// collection
+	intNumList.push(n);
+	
+	// odd position case
+	var td_class = '';
+	if ((i+1) % 2 != 0) { 
+		oddSum += n; 
+		td_class = ' class="hl2"';
+	}
+
+	// building table
+	$('.table5').append('<tr><td class="hl1">numero #'+(i+1)+'</td><td'+td_class+'>'+intNumList[i]+'</td></tr>');
+
+}
+
+// showing sum
+$('.end_table5').html('<span class="hl3">Somma:</span> <span class="hl2">'+oddSum+'</span>');
+
+
 
 
 // * ---------- * JS SNACK 6 * ---------- *
@@ -191,12 +221,14 @@ while (fakeIds.length < fakeIdNumber) {
 // fino a quando ne avrà tanti quanti l’altro.
 
 
+
 // * ---------- * JS SNACK 7 * ---------- *
 // 4)
 // Scrivi una funzione che fonda due array (aventi lo stesso
 // numero di elementi) prendendo alternativamente gli
 // elementi da uno e dall’altro
 // es. [a,b,c], [1,2,3] → [a,1,b,2,c,3].
+
 
 
 // * ---------- * JS SNACK 8 * ---------- *
@@ -225,8 +257,10 @@ showJsSnackLabels();
 // no functions
 
 
+
 // * ---------- * JS SNACK 2 * ---------- *
 // no functions
+
 
 
 // * ---------- * JS SNACK 3 * ---------- *
@@ -260,9 +294,16 @@ function emptyForm() {
 }
 
 
+
 // * ---------- * JS SNACK 4 * ---------- *
 function getRandomInt(_a, _b) {
 	return Math.floor(Math.random()*(_b-_a+1))+_a;
+}
+function showList(_id,_list,_domHook) {
+	$('.'+_domHook).html('<tr class="hl1"><td></td><td>'+_id+'</td></tr>');
+	for (var i=0; i<_list.length; i++) {
+		$('.'+_domHook).append('<tr><td class="hl1">#'+(i+1)+'</td><td>'+_list[i]+'</td></tr>');
+	}
 }
 
 
@@ -270,16 +311,20 @@ function getRandomInt(_a, _b) {
 // no functions
 
 
+
 // * ---------- * JS SNACK 6 * ---------- *
 // no functions
+
 
 
 // * ---------- * JS SNACK 7 * ---------- *
 // no functions
 
 
+
 // * ---------- * JS SNACK 8 * ---------- *
 // no functions
+
 
 
 // * ------- * JS SNACK LABELS * -------- *
