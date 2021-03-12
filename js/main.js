@@ -215,10 +215,55 @@ $('.end_table5').html('<span class="hl3">Somma:</span> <span class="hl2">'+oddSu
 
 
 // * ---------- * JS SNACK 6 * ---------- *
-// 3)
 // Crea due array che hanno un numero di elementi diversi.
 // Aggiungi elementi casuali all’array che ha meno elementi,
 // fino a quando ne avrà tanti quanti l’altro.
+
+// empty couple of arrays
+var arrayList = {
+	'A': [],
+	'B': []
+}
+
+// filling arrays (1-10 random numbers in range 1-1000)
+const elementsNumber = 10,
+	  elementRange   = 1000;
+for (key in arrayList) {
+	for (var i=0; i<getRandomInt(1,elementsNumber); i++) {
+		arrayList[key].push(getRandomInt(1,elementRange));
+	}
+}
+
+// shorter array
+var shorterArrKey = findShorterArrayInAListObj(arrayList,true); // array of key of shorter arrays
+// longer array
+var longerArrKey = findShorterArrayInAListObj(arrayList,false); // array of key of longer arrays
+
+// show arrays
+if (longerArrKey[0] != shorterArrKey[0]) {
+	showArray(longerArrKey[0],arrayList[longerArrKey[0]],'table6a',undefined);
+	showArray(shorterArrKey[0],arrayList[shorterArrKey[0]],'table6b',undefined);
+} else {
+	showArray('A',arrayList.A,'table6a',undefined);
+	showArray('B',arrayList.B,'table6b',undefined);
+}
+
+// length difference
+var deltaLenght = arrayList[longerArrKey[0]].length - arrayList[shorterArrKey[0]].length;
+
+// results
+if (deltaLenght > 0) {
+	$('.end_table6').html('<span class="hl3">Differenza iniziale: '+deltaLenght+' element'+((deltaLenght==1)?'o':'i')+' &rArr; array '+shorterArrKey[0]+' riempito!</span>');
+	for (var i=0; i<deltaLenght; i++) {
+		// filling shorter array
+		arrayList[shorterArrKey[0]].push(getRandomInt(1,1000));
+	}
+	// showing filled array
+	showArray(shorterArrKey[0],arrayList[shorterArrKey[0]],'table6c',deltaLenght);
+} else {
+	// no contest
+	$('.end_table6').html('<span class="hl3">Array di lunghezza uguale! (Ricarica la pagina)</span>');
+}
 
 
 
@@ -307,23 +352,53 @@ function showList(_id,_list,_domHook) {
 }
 
 
+
 // * ---------- * JS SNACK 5 * ---------- *
-// no functions
+// function getRandomInt(_a, _b) {... }
 
 
 
 // * ---------- * JS SNACK 6 * ---------- *
-// no functions
+function findShorterArrayInAListObj(_arrayListObj,_shorter) {
+	/**
+	 * returns array of shorter/logner arrays (if more than one) in a list-object of arrays
+	 * _shorter:true  => shorter arrays
+	 * _shorter:false => longer arrays
+	 */
+	var keyListOK = []; // list of shorter/longer arrays
+	for (key in _arrayListObj) { // consideirng key...
+		var keyOK = true; // key is the shorter/longer (optimistic start!)
+		for (key2 in _arrayListObj) { // finding a key2 shorter/longer than key
+			if (key2 != key) {
+				var len  = _arrayListObj[key].length,
+					len2 = _arrayListObj[key2].length,
+					cond = (_shorter) ? (len2 < len) : (len2 > len);
+				if (cond) keyOK = false; // at least one key2 is shorter/longer than key
+			}
+		}
+		if (keyOK) keyListOK.push(key);
+	}
+	return keyListOK;
+}
+function showArray(_arrName,_arr,_htmlHook,_delta) {
+	var newArr = (_delta != undefined) ? 'Nuovo ' : ''; 	
+	$('.'+_htmlHook).html('<tr><td class="hl3">'+newArr+'Array '+_arrName+'</td><td></td></tr>');
+	$('.'+_htmlHook).append('<tr><td>'+_arr.length+' element'+((_arr.length==1)?'o':'i')+'</td><td></td></tr>');
+	for (var i=0; i<_arr.length; i++){
+		if (_delta != undefined) var tr_class = ((i+1)>(_arr.length - _delta)) ? ' class="hl2"': '';
+		$('.'+_htmlHook).append('<tr '+tr_class+'><td>'+_arrName+'['+i+']</td><td>'+_arr[i]+'<td></tr>');
+	}
+}
 
 
 
 // * ---------- * JS SNACK 7 * ---------- *
-// no functions
+// no functions yet
 
 
 
 // * ---------- * JS SNACK 8 * ---------- *
-// no functions
+// no functions yet
 
 
 
