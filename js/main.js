@@ -54,7 +54,7 @@ var zucchine = [
 	}
 ];
 
-$('.table1').append('<tr class="hl1"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td></tr>');
+$('.table1').html('<tr class="hl1"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td></tr>');
 
 var sum = 0;
 for (var i=0; i<zucchine.length; i++) {
@@ -67,7 +67,7 @@ for (var i=0; i<zucchine.length; i++) {
 						'</tr>');
 }
 
-$('.end_table1').append('<span class="hl3">Peso totale zucchine:</span> <span class="hl2">'+sum+'</span>');
+$('.end_table1').html('<span class="hl3">Peso totale zucchine:</span> <span class="hl2">'+sum+'</span>');
 
 
 
@@ -101,7 +101,7 @@ for (key in zucchineSeparate) {
 	}
 }
 
-$('.table2').append('<tr class="hl1"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td><tr>');
+$('.table2').html('<tr class="hl1"><td></td><td>varietà</td><td>peso</td><td>lunghezza</td><tr>');
 
 for (key in zucchineSeparate) {
 	for (var i=0; i<zucchineSeparate[key].length; i++) {
@@ -147,7 +147,7 @@ var   tmpNameList    = []; // picked up name list
 var   tmpSurnameList = []; // picked up surname list
 var   i=1; // fake id counter in [1, ..., fakeIdNumber]
 
-$('.table4c').append('<tr class="hl1"><td></td><td>nome</td><td>cognome</td></tr>');
+$('.table4c').html('<tr class="hl1"><td></td><td>nome</td><td>cognome</td></tr>');
 
 while (fakeIds.length < fakeIdNumber) {
 
@@ -186,7 +186,7 @@ var   numListLength = getRandomInt(10,20);
 var   intNumList    = [];
 var   oddSum        = 0;
 
-$('.table5').append('<tr class="hl1"><td></td><td>valore</td></tr>');
+$('.table5').html('<tr class="hl1"><td></td><td>valore</td></tr>');
 
 for (var i=0; i<numListLength; i++) {
 
@@ -219,51 +219,42 @@ $('.end_table5').html('<span class="hl3">Somma:</span> <span class="hl2">'+oddSu
 // Aggiungi elementi casuali all’array che ha meno elementi,
 // fino a quando ne avrà tanti quanti l’altro.
 
-// empty couple of arrays
-var arrayList = {
-	'A': [],
-	'B': []
-}
+const arrSetLength  = 2,    // set of 2 arrays in an object
+	  arrNamePrefix = 'A',  // array names: A1, A2
+	  arrMaxLength  = 10,   // array length: random integer in [1,10]
+	  arrElemRange  = 1000; // array element name: A1_, A2_ + random integer in [1,1000] 
+var   arraySet      = getRandomIntArraySetObj(arrSetLength,arrNamePrefix,1,arrMaxLength,arrElemRange);
 
-// filling arrays (1-10 random numbers in range 1-1000)
-const elementsNumber = 10,
-	  elementRange   = 1000;
-for (key in arrayList) {
-	for (var i=0; i<getRandomInt(1,elementsNumber); i++) {
-		arrayList[key].push(getRandomInt(1,elementRange));
-	}
-}
-
-// shorter array & longer array
-var shorterArrKey = findShorterArrayInAListObj(arrayList,true);  // array of key of shorter arrays
-var longerArrKey  = findShorterArrayInAListObj(arrayList,false); // array of key of longer arrays
+// shorter & longer array
+var shorterArrKey = findShorterArrayInASetObj(arraySet,true);  // array of key of shorter arrays
+var longerArrKey  = findShorterArrayInASetObj(arraySet,false); // array of key of longer arrays
 
 // results
 if (longerArrKey[0] != shorterArrKey[0]) {
 
 	// showing different arrays
-	showArray(longerArrKey[0], arrayList[longerArrKey[0]], 'table6a',undefined);
-	showArray(shorterArrKey[0],arrayList[shorterArrKey[0]],'table6b',undefined);
+	showArray(longerArrKey[0], arraySet[longerArrKey[0]], 'table6a',undefined);
+	showArray(shorterArrKey[0],arraySet[shorterArrKey[0]],'table6b',undefined);
 
-	// length difference
-	var deltaLenght = arrayList[longerArrKey[0]].length - arrayList[shorterArrKey[0]].length;
+	// array length difference
+	var deltaLength = arraySet[longerArrKey[0]].length - arraySet[shorterArrKey[0]].length;
 	
-	$('.end_table6').html('<span class="hl3">Differenza iniziale: '+deltaLenght+' element'+((deltaLenght==1)?'o':'i')+' &rArr; array '+shorterArrKey[0]+' riempito!</span>');
-	for (var i=0; i<deltaLenght; i++) {
+	$('.end_table6').html('<span class="hl3">Differenza iniziale: '+deltaLength+' element'+((deltaLength==1)?'o':'i')+' &rArr; array '+shorterArrKey[0]+' riempito!</span>');
+	for (var i=0; i<deltaLength; i++) {
 
 		// filling shorter array
-		arrayList[shorterArrKey[0]].push(getRandomInt(1,1000));
+		arraySet[shorterArrKey[0]].push(shorterArrKey[0]+'_'+getRandomInt(1,1000));
 
 	}
 
 	// showing filled array
-	showArray(shorterArrKey[0],arrayList[shorterArrKey[0]],'table6c',deltaLenght);
+	showArray(shorterArrKey[0],arraySet[shorterArrKey[0]],'table6c',deltaLength);
 
 } else {
 
 	// showing equal length arrays
-	showArray('A',arrayList.A,'table6a',undefined);
-	showArray('B',arrayList.B,'table6b',undefined);
+	showArray(arrNamePrefix+'1',arraySet[arrNamePrefix+'1'],'table6a',undefined);
+	showArray(arrNamePrefix+'2',arraySet[arrNamePrefix+'2'],'table6b',undefined);
 
 	// no contest
 	$('.end_table6').html('<span class="hl3">Array di lunghezza uguale! (Ricarica la pagina)</span>');
@@ -278,6 +269,11 @@ if (longerArrKey[0] != shorterArrKey[0]) {
 // numero di elementi) prendendo alternativamente gli
 // elementi da uno e dall’altro
 // es. [a,b,c], [1,2,3] → [a,1,b,2,c,3].
+
+
+// vargetRandomIntArraySetObj(5,'ciccio_',3,5,1000);
+
+
 
 
 
@@ -359,12 +355,29 @@ function showList(_id,_list,_domHook) {
 
 
 // * ---------- * JS SNACK 5 * ---------- *
-// function getRandomInt(_a, _b) {... }
+// function getRandomInt(_a, _b) {...}
 
 
 
 // * ---------- * JS SNACK 6 * ---------- *
-function findShorterArrayInAListObj(_arrayListObj,_shorter) {
+function getRandomIntArraySetObj(_arrSetLength,_prefixName,_arrMinLength,_arrMaxLength,_arrElemRange) {
+	/**
+	 * returns a set of arrays as an object
+	 * number of arrays in set : _arrSetLength
+	 * array name (object key) : _prefixName + order number
+	 * array length            : random number in [_arrMinLength, _arrMaxLength]
+	 * array element name      : array name + '_' + random number in [1, _arrElemRange]
+	 */
+	var arrList = {}; // building assay set as an object
+	for (var i=1; i<=_arrSetLength; i++) arrList[_prefixName+i] = [];
+	if (_arrMinLength > _arrMaxLength) _arrMinLength = _arrMaxLength; // consistency check
+	for (key in arrList) { // filling arrays
+		for (var i=0; i<getRandomInt(_arrMinLength,_arrMaxLength); i++)
+			arrList[key].push(key+'_'+getRandomInt(1,_arrElemRange));
+	}
+	return arrList;
+}
+function findShorterArrayInASetObj(_arrayListObj,_shorter) {
 	/**
 	 * returns array of shorter/logner arrays (if more than one) in a list-object of arrays
 	 * _shorter:true  => shorter arrays
@@ -398,7 +411,7 @@ function showArray(_arrName,_arr,_htmlHook,_delta) {
 
 
 // * ---------- * JS SNACK 7 * ---------- *
-// no functions yet
+// function getRandomIntArraySetObj() {...}
 
 
 
