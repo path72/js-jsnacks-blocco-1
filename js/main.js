@@ -204,7 +204,7 @@ for (var i=0; i<numListLength; i++) {
 	}
 
 	// building table
-	$('.table5').append('<tr><td class="hl1">numero #'+(i+1)+'</td><td'+td_class+'>'+intNumList[i]+'</td></tr>');
+	$('.table5').append('<tr><td class="hl1">posizione #'+(i+1)+'</td><td'+td_class+'>'+intNumList[i]+'</td></tr>');
 
 }
 
@@ -222,7 +222,7 @@ $('.end_table5').html('<span class="hl3">Somma:</span> <span class="hl2">'+oddSu
 const arrSetLength  = 2,    // set of 2 arrays in an object
 	  arrNamePrefix = 'A',  // array names: A1, A2
 	  arrMaxLength  = 10,   // array length: random integer in [1,10]
-	  arrElemRange  = 1000; // array element name: A1_, A2_ + random integer in [1,1000] 
+	  arrElemRange  = 999; // array element name: A1_, A2_ + random integer in [1,999] 
 var   arraySet      = getRandomIntArraySetObj(arrSetLength,arrNamePrefix,1,arrMaxLength,arrElemRange);
 
 // shorter & longer array
@@ -239,7 +239,7 @@ if (longerArrKey[0] != shorterArrKey[0]) {
 	// array length difference
 	var deltaLength = arraySet[longerArrKey[0]].length - arraySet[shorterArrKey[0]].length;
 	
-	$('.end_table6').html('<span class="hl3">Differenza iniziale: '+deltaLength+' element'+((deltaLength==1)?'o':'i')+' &rArr; array '+shorterArrKey[0]+' riempito!</span>');
+	$('.end_table6').html('<span class="hl3">Differenza iniziale: '+deltaLength+' element'+((deltaLength==1)?'o':'i')+' &rArr; array '+shorterArrKey[0]+' prolungato!</span>');
 	for (var i=0; i<deltaLength; i++) {
 
 		// filling shorter array
@@ -269,27 +269,39 @@ if (longerArrKey[0] != shorterArrKey[0]) {
 // elementi da uno e dall’altro
 // es. [a,b,c], [1,2,3] → [a,1,b,2,c,3].
 
-// 2 random arrays of 5 elements both
-var arrSetObj = getRandomIntArraySetObj(2,'Ciccio',5,5,100);
+// 2 arrays of random elements each and random length in [1,10]
+const arrLen   = getRandomInt(1,10);
+var  arrSetObj = getRandomIntArraySetObj(2,'Ciccio',arrLen,arrLen,99);
+showArray('Ciccio1',arrSetObj.Ciccio1,'table7a',undefined);
+showArray('Ciccio2',arrSetObj.Ciccio2,'table7b',undefined);
 
-// showing arrays
-showArray('Ciccio1',arrSetObj['Ciccio1'],'table7a',undefined);
-showArray('Ciccio2',arrSetObj['Ciccio2'],'table7b',undefined);
-
-// merged array
-var arrM = getMergedArrOfEqualLength2(arrSetObj);
-showArray('DosCiccios',arrM,'table7c',10);
+// merged array of 10 elements
+var dosCiccios = getMergedArrOfEqualLength2(arrSetObj);
+showArray('dosCiccios',dosCiccios,'table7c',(2*arrLen));
 
 
 
 // * ---------- * JS SNACK 8 * ---------- *
-// 5)
 // Scrivi una funzione che accetti tre argomenti:
 // un array e due numeri (“a” più piccolo di “b” e “b” grande al
 // massimo quanto il numero di elementi dell’array).
 // La funzione ritornerà un nuovo array con i valori che
 // hanno la posizione compresa tra “a” e “b”
 
+// A1: array of random elements and random lenght in [1,20]
+const arrLength     = getRandomInt(1,20);
+var   startArrayObj = getRandomIntArraySetObj(1,'A',arrLength,arrLength,999);
+showArray('A1',startArrayObj.A1,'table8a',undefined);
+
+// random index range [rndA,rndB]
+const rndA = getRandomInt(0,arrLength-1);
+const rndB = getRandomInt(rndA,startArrayObj.A1.length-1);
+
+// Extracting A1 elements in index sector [rndIntA,rndIntB]
+var sectorA1 = getArrSectorAB(startArrayObj.A1,rndA,rndB);
+showArray('sectorA1',sectorA1,'table8b',(rndB-rndA+1));
+
+$('.end_table8').html('<span class="hl3">Estratto dall\'array A1 il settore di indici da '+rndA+' a '+rndB+'</span>');
 
 
 
@@ -304,17 +316,17 @@ showJsSnackLabels();
 // FUNCTIONS
 
 
-// * ---------- * JS SNACK 1 * ---------- *
+// * ---------- * JS SNACK 1 FUNCTIONS * ---------- *
 // no functions
 
 
 
-// * ---------- * JS SNACK 2 * ---------- *
+// * ---------- * JS SNACK 2 FUNCTIONS * ---------- *
 // no functions
 
 
 
-// * ---------- * JS SNACK 3 * ---------- *
+// * ---------- * JS SNACK 3 FUNCTIONS * ---------- *
 function stringReverse(_string) {
 	var rev = '';
 	for (var i=0; i<_string.length; i++) 
@@ -346,7 +358,7 @@ function emptyForm() {
 
 
 
-// * ---------- * JS SNACK 4 * ---------- *
+// * ---------- * JS SNACK 4 FUNCTIONS * ---------- *
 function getRandomInt(_a, _b) {
 	return Math.floor(Math.random()*(_b-_a+1))+_a;
 }
@@ -359,12 +371,12 @@ function showList(_id,_list,_domHook) {
 
 
 
-// * ---------- * JS SNACK 5 * ---------- *
+// * ---------- * JS SNACK 5 FUNCTIONS * ---------- *
 // function getRandomInt(_a, _b) {...}
 
 
 
-// * ---------- * JS SNACK 6 * ---------- *
+// * ---------- * JS SNACK 6 FUNCTIONS * ---------- *
 function getRandomIntArraySetObj(_arrSetLength,_arrPreName,_arrMinLength,_arrMaxLength,_arrElemRange) {
 	/**
 	 * returns a set of arrays as an object
@@ -405,17 +417,28 @@ function findShorterArrayInASetObj(_arrayListObj,_shorter) {
 function showArray(_arrName,_arr,_htmlHook,_delta) {
 	var newArr = (_delta != undefined) ? 'Nuovo ' : ''; 	
 	$('.'+_htmlHook).html('<tr><td class="hl3" colspan="2">'+newArr+'Array '+_arrName+'</td></tr>');
-	$('.'+_htmlHook).append('<tr><td colspan="2">'+_arr.length+' element'+((_arr.length==1)?'o':'i')+'</td></tr>');
+	$('.'+_htmlHook).append('<tr><td colspan="2" class="hl1">'+_arr.length+' element'+((_arr.length==1)?'o':'i')+'</td></tr>');
 	for (var i=0; i<_arr.length; i++){
 		if (_delta != undefined) var tr_class = ((i+1) > (_arr.length - _delta)) ? ' class="hl2"': '';
 		$('.'+_htmlHook).append('<tr '+tr_class+'><td>'+_arrName+'['+i+']</td><td>'+_arr[i]+'<td></tr>');
 	}
 }
+// function getRandomInt(_a, _b) {...}
 
 
 
-// * ---------- * JS SNACK 7 * ---------- *
+// * ---------- * JS SNACK 7 FUNCTIONS * ---------- *
 function getMergedArrOfEqualLength2(_arrSetObj) {
+	/**
+	 * receives a set of arrays with object arrangement and
+	 * returns a merged array of their alternate sequential elements
+	 * 
+	 * in case of not equal length input arrays 
+	 * only a minimum number of elements will be considered
+	 * for each array, equal to the shorter array in the set
+	 * 
+	 * function findShorterArrayInASetObj() is needed
+	 */
 	var arr = [];
 	var length = _arrSetObj[findShorterArrayInASetObj(_arrSetObj,true)[0]].length;
 	for (var i=0; i<length; i++)
@@ -428,8 +451,24 @@ function getMergedArrOfEqualLength2(_arrSetObj) {
 
 
 
-// * ---------- * JS SNACK 8 * ---------- *
-// no functions yet
+// * ---------- * JS SNACK 8 FUNCTIONS * ---------- *
+function getArrSectorAB(_arr,_A,_B) {
+	/**
+	 * receives an array _arr and
+	 * returns a list of its elements in index sector [_A,_B]  
+	 */
+	// consistency check
+	if (_A > _B) _A = _B;
+	if (_B > _arr.length) _B = _arr.length;
+	// selecting [_A,_B] sector
+	var nArr = [];
+	for (var i=0; i<(_B - _A + 1); i++) {
+		nArr.push(_arr[i + _A]);
+	}
+	return nArr;
+}
+// function getRandomIntArraySetObj() {...}
+// function getRandomInt(_a, _b) {...}
 
 
 
