@@ -264,16 +264,21 @@ if (longerArrKey[0] != shorterArrKey[0]) {
 
 
 // * ---------- * JS SNACK 7 * ---------- *
-// 4)
 // Scrivi una funzione che fonda due array (aventi lo stesso
 // numero di elementi) prendendo alternativamente gli
 // elementi da uno e dall’altro
 // es. [a,b,c], [1,2,3] → [a,1,b,2,c,3].
 
+// 2 random arrays of 5 elements both
+var arrSetObj = getRandomIntArraySetObj(2,'Ciccio',5,5,100);
 
-// vargetRandomIntArraySetObj(5,'ciccio_',3,5,1000);
+// showing arrays
+showArray('Ciccio1',arrSetObj['Ciccio1'],'table7a',undefined);
+showArray('Ciccio2',arrSetObj['Ciccio2'],'table7b',undefined);
 
-
+// merged array
+var arrM = getMergedArrOfEqualLength2(arrSetObj);
+showArray('DosCiccios',arrM,'table7c',10);
 
 
 
@@ -360,22 +365,21 @@ function showList(_id,_list,_domHook) {
 
 
 // * ---------- * JS SNACK 6 * ---------- *
-function getRandomIntArraySetObj(_arrSetLength,_prefixName,_arrMinLength,_arrMaxLength,_arrElemRange) {
+function getRandomIntArraySetObj(_arrSetLength,_arrPreName,_arrMinLength,_arrMaxLength,_arrElemRange) {
 	/**
 	 * returns a set of arrays as an object
 	 * number of arrays in set : _arrSetLength
-	 * array name (object key) : _prefixName + order number
+	 * array name (object key) : _arrPreName + order number 1,2,..
 	 * array length            : random number in [_arrMinLength, _arrMaxLength]
 	 * array element name      : array name + '_' + random number in [1, _arrElemRange]
 	 */
-	var arrList = {}; // building assay set as an object
-	for (var i=1; i<=_arrSetLength; i++) arrList[_prefixName+i] = [];
+	var arrSet = {}; // building array set as an object
+	for (var i=1; i<=_arrSetLength; i++) arrSet[_arrPreName+i] = [];  // building each array
 	if (_arrMinLength > _arrMaxLength) _arrMinLength = _arrMaxLength; // consistency check
-	for (key in arrList) { // filling arrays
+	for (key in arrSet) // filling each array
 		for (var i=0; i<getRandomInt(_arrMinLength,_arrMaxLength); i++)
-			arrList[key].push(key+'_'+getRandomInt(1,_arrElemRange));
-	}
-	return arrList;
+			arrSet[key].push(key+'_'+getRandomInt(1,_arrElemRange));
+	return arrSet;
 }
 function findShorterArrayInASetObj(_arrayListObj,_shorter) {
 	/**
@@ -411,7 +415,16 @@ function showArray(_arrName,_arr,_htmlHook,_delta) {
 
 
 // * ---------- * JS SNACK 7 * ---------- *
+function getMergedArrOfEqualLength2(_arrSetObj) {
+	var arr = [];
+	var length = _arrSetObj[findShorterArrayInASetObj(_arrSetObj,true)[0]].length;
+	for (var i=0; i<length; i++)
+		for (key in _arrSetObj)
+			arr.push(_arrSetObj[key][i]);	
+	return arr;
+}
 // function getRandomIntArraySetObj() {...}
+// function showArray() {...}
 
 
 
